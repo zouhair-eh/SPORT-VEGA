@@ -4,7 +4,8 @@
         "customize": "Personnalisation",
         "contact": "Contact",
         "cart": "Panier",
-        "admin": "Admin"
+        "admin": "Admin",
+        "login": "Connexion"
     },
     "home": {
         "title": "VEGA STORE",
@@ -69,5 +70,12 @@
         "accessories": "Accessoires",
         "morocco-teams": "Équipes Maroc",
         "european-teams": "Équipes Europe"
+    },
+    "login": {
+        "title": "Bienvenue",
+        "subtitle": "Connectez-vous à votre compte VEGA",
+        "email": "Adresse Email",
+        "password": "Mot de passe",
+        "noAccount": "Pas encore de compte ?"
     }
 }

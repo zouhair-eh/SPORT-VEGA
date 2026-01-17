@@ -10,6 +10,7 @@ import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
 import Contact from './pages/Contact'
 import Admin from './pages/Admin'
+import Login from './pages/Login'
 import NotFound from './pages/NotFound'
 import { addToCart, loadCart, removeFromCart, saveCart, updateQty } from './utils/cart'
 
@@ -62,6 +63,7 @@ export default function App() {
         <Route path="/customize" element={<CustomizeKit onAdd={onAdd} />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/cart" element={<Cart cart={cart} setCart={setCart} onRemove={onRemove} onUpdateQty={onUpdateQty} />} />
         <Route path="/checkout" element={<Checkout cart={cart} onClear={onClear} />} />
         <Route path="*" element={<NotFound />} />
