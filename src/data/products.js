@@ -1,404 +1,181 @@
 export const CATEGORIES = [
-  { id: 'equipment', label: 'Matériel' },
-  { id: 'apparel', label: 'Tenues' },
-  { id: 'teamkits', label: 'Kits Équipe' },
-  { id: 'accessories', label: 'Accessoires' },
-  { id: 'morocco-teams', label: 'Équipes Maroc' },
-  { id: 'european-teams', label: 'Équipes Europe' },
+  { id: 'gym', label: 'Gym & Crossfit', icon: 'FaDumbbell' },
+  { id: 'cardio', label: 'Cardio Training', icon: 'FaRunning' },
+  { id: 'football', label: 'Football / Soccer', icon: 'FaFutbol' },
+  { id: 'boxing', label: 'Boxing & MMA', icon: 'FaHandRock' },
+  { id: 'basketball', label: 'Basketball', icon: 'FaBasketballBall' },
+  { id: 'tennis', label: 'Tennis & Padel', icon: 'FaTableTennis' },
+  { id: 'running', label: 'Running & Track', icon: 'FaShoePrints' },
+  { id: 'recovery', label: 'Recovery & Health', icon: 'FaHeartbeat' },
+  { id: 'apparel', label: 'Activewear', icon: 'FaTshirt' },
+  { id: 'teamkits', label: 'Team Kits (Custom)', icon: 'FaUsers' },
 ];
 
-export const PRODUCTS = [
-  // Equipment
-  {
-    id: 'eq-dumbbells',
-    name: 'Dumbbells Pro',
-    category: 'equipment',
-    priceMAD: 129,
-    image: '/images/products/dumbbells.png',
-    short: "Paire d'haltères pour entraînement complet.",
-  },
-  {
-    id: 'eq-treadmill',
-    name: 'Tapis de course AirRun',
-    category: 'equipment',
-    priceMAD: 1999,
-    image: '/images/products/treadmill.png',
-    short: 'Cardio à la maison, compact et stable.',
-  },
-  {
-    id: 'eq-boxing',
-    name: 'Gants de boxe Vega',
-    category: 'equipment',
-    priceMAD: 249,
-    image: '/images/products/boxing-gloves.png',
-    short: "Protection + confort pour l'entraînement.",
-  },
-  {
-    id: 'eq-kettlebell',
-    name: 'Kettlebell 16kg',
-    category: 'equipment',
-    priceMAD: 179,
-    image: '/images/products/kettlebell.png',
-    short: 'Entraînement fonctionnel et cardio.',
-  },
-  {
-    id: 'eq-pullupbar',
-    name: 'Barre de traction',
-    category: 'equipment',
-    priceMAD: 149,
-    imageQuery: 'pull up bar',
-    short: 'Installation facile, charge max 150kg.',
-  },
-  {
-    id: 'eq-jumprope',
-    name: 'Corde à sauter Speed',
-    category: 'equipment',
-    priceMAD: 49,
-    imageQuery: 'jump rope',
-    short: 'Cardio intense, réglable.',
-  },
+const generateProducts = () => {
+  const p = [];
 
-  // Accessories
-  {
-    id: 'acc-yogamat',
-    name: 'Tapis Yoga Grip',
-    category: 'accessories',
-    priceMAD: 99,
-    image: '/images/products/yoga-mat.png',
-    short: 'Grip antidérapant, idéal yoga & stretching.',
-  },
-  {
-    id: 'acc-shaker',
-    name: 'Shaker Protein 700ml',
-    category: 'accessories',
-    priceMAD: 59,
-    imageQuery: 'protein shaker',
-    short: 'Mélange parfait, sans grumeaux.',
-  },
-  {
-    id: 'acc-bag',
-    name: 'Sac Sport 35L',
-    category: 'accessories',
-    priceMAD: 189,
-    imageQuery: 'gym duffel bag',
-    short: 'Compartiments pratiques pour entraînement.',
-  },
-  {
-    id: 'acc-bottle',
-    name: 'Gourde Sport 1L',
-    category: 'accessories',
-    priceMAD: 39,
-    imageQuery: 'water bottle',
-    short: 'Sans BPA, isotherme.',
-  },
-  {
-    id: 'acc-gloves',
-    name: 'Gants Entraînement',
-    category: 'accessories',
-    priceMAD: 79,
-    imageQuery: 'workout gloves',
-    short: 'Protection mains, grip renforcé.',
-  },
-
-  // Apparel
-  {
-    id: 'app-tee',
-    name: 'T-shirt Sport DryFit',
-    category: 'apparel',
-    priceMAD: 149,
-    imageQuery: 'sports t shirt',
-    short: 'Léger, respirant, séchage rapide.',
-    customizable: true,
-  },
-  {
-    id: 'app-shorts',
-    name: 'Short Training Flex',
-    category: 'apparel',
-    priceMAD: 129,
-    imageQuery: 'sports shorts',
-    short: 'Liberté de mouvement, tissu extensible.',
-  },
-  {
-    id: 'app-leggings',
-    name: 'Legging Compression',
-    category: 'apparel',
-    priceMAD: 169,
-    imageQuery: 'compression leggings',
-    short: 'Support musculaire, confort optimal.',
-  },
-
-  // Team Kits
-  {
-    id: 'team-jersey',
-    name: 'Maillot Équipe (Personnalisable)',
-    category: 'teamkits',
-    priceMAD: 199,
-    imageQuery: 'football jersey',
-    short: 'Ajoutez votre nom et numéro sur le maillot.',
-    customizable: true,
-  },
-  {
-    id: 'team-kit',
-    name: 'Tenue Complète Équipe',
-    category: 'teamkits',
-    priceMAD: 349,
-    imageQuery: 'team sports uniform',
-    short: 'Maillot + short + chaussettes, style pro.',
-    customizable: true,
-  },
-
-  // Morocco Teams
-  {
-    id: 'morocco-football-home',
-    name: 'Maillot Maroc Domicile',
-    category: 'morocco-teams',
-    priceMAD: 299,
-    imageQuery: 'morocco football jersey red',
-    short: 'Maillot officiel Lions de l\'Atlas.',
-    customizable: true,
-  },
-  {
-    id: 'morocco-football-away',
-    name: 'Maillot Maroc Extérieur',
-    category: 'morocco-teams',
-    priceMAD: 299,
-    imageQuery: 'morocco football jersey white',
-    short: 'Maillot extérieur équipe nationale.',
-    customizable: true,
-  },
-  {
-    id: 'morocco-basketball',
-    name: 'Maillot Basket Maroc',
-    category: 'morocco-teams',
-    priceMAD: 249,
-    imageQuery: 'morocco basketball jersey',
-    short: 'Maillot basketball équipe nationale.',
-    customizable: true,
-  },
-  {
-    id: 'morocco-training',
-    name: 'Tenue Entraînement Maroc',
-    category: 'morocco-teams',
-    priceMAD: 279,
-    imageQuery: 'morocco training kit',
-    short: 'Kit entraînement officiel.',
-    customizable: false,
-  },
-
-  // European Teams
-  {
-    id: 'real-madrid-home',
-    name: 'Maillot Real Madrid Domicile',
-    category: 'european-teams',
-    priceMAD: 349,
-    imageQuery: 'real madrid white jersey',
-    short: 'Maillot blanc légendaire du Real.',
-    customizable: true,
-  },
-  {
-    id: 'barcelona-home',
-    name: 'Maillot FC Barcelona Domicile',
-    category: 'european-teams',
-    priceMAD: 349,
-    imageQuery: 'barcelona blaugrana jersey',
-    short: 'Maillot blaugrana du Barça.',
-    customizable: true,
-  },
-  {
-    id: 'psg-home',
-    name: 'Maillot PSG Domicile',
-    category: 'european-teams',
-    priceMAD: 349,
-    imageQuery: 'psg paris jersey',
-    short: 'Maillot Paris Saint-Germain.',
-    customizable: true,
-  },
-  {
-    id: 'manchester-united-home',
-    name: 'Maillot Manchester United',
-    category: 'european-teams',
-    priceMAD: 349,
-    imageQuery: 'manchester united red jersey',
-    short: 'Maillot rouge des Red Devils.',
-    customizable: true,
-  },
-  {
-    id: 'liverpool-home',
-    name: 'Maillot Liverpool FC',
-    category: 'european-teams',
-    priceMAD: 349,
-    imageQuery: 'liverpool red jersey',
-    short: 'Maillot rouge des Reds.',
-    customizable: true,
-  },
-  {
-    id: 'bayern-munich-home',
-    name: 'Maillot Bayern Munich',
-    category: 'european-teams',
-    priceMAD: 349,
-    imageQuery: 'bayern munich red jersey',
-    short: 'Maillot du Bayern de Munich.',
-    customizable: true,
-  },
-  {
-    id: 'juventus-home',
-    name: 'Maillot Juventus',
-    category: 'european-teams',
-    priceMAD: 349,
-    imageQuery: 'juventus black white jersey',
-    short: 'Maillot rayé noir et blanc de la Juve.',
-    customizable: true,
-  },
-  {
-    id: 'chelsea-home',
-    name: 'Maillot Chelsea FC',
-    category: 'european-teams',
-    priceMAD: 349,
-    imageQuery: 'chelsea blue jersey',
-    short: 'Maillot bleu des Blues.',
-    customizable: true,
-  },
-  {
-    id: 'arsenal-home',
-    name: 'Maillot Arsenal FC',
-    category: 'european-teams',
-    priceMAD: 349,
-    imageQuery: 'arsenal red jersey',
-    short: 'Maillot rouge des Gunners.',
-    customizable: true,
-  },
-  {
-    id: 'ac-milan-home',
-    name: 'Maillot AC Milan',
-    category: 'european-teams',
-    priceMAD: 349,
-    imageQuery: 'ac milan red black jersey',
-    short: 'Maillot rossonero du Milan AC.',
-    customizable: true,
-  },
-  // --- NEW PROFESSIONAL SPORTS GEAR ---
-  {
-    id: 'sp-spikes-pro',
-    name: 'Crampons Pro Speed',
-    category: 'equipment',
-    priceMAD: 899,
-    imageQuery: 'professional football spikes shoes blue',
-    short: 'Accélération maximale sur terrain gras.',
-  },
-  {
-    id: 'sp-ball-ucl',
-    name: 'Ballon Officiel UCL',
-    category: 'equipment',
-    priceMAD: 450,
-    imageQuery: 'champions league official match ball',
-    short: 'Le ballon des champions, aérodynamisme parfait.',
-  },
-  {
-    id: 'sp-nba-lakers',
-    name: 'Maillot Lakers LBJ',
-    category: 'apparel',
-    priceMAD: 499,
-    imageQuery: 'lakers purple jersey 23',
-    short: 'Maillot NBA officiel Los Angeles Lakers.',
-    customizable: true,
-  },
-  {
-    id: 'sp-nba-warriors',
-    name: 'Maillot Warriors Curry',
-    category: 'apparel',
-    priceMAD: 499,
-    imageQuery: 'golden state warriors jersey 30',
-    short: 'Maillot Stephen Curry, haute performance.',
-    customizable: true,
-  },
-  {
-    id: 'sp-tennis-racket',
-    name: 'Raquette Pro Vega',
-    category: 'equipment',
-    priceMAD: 1200,
-    imageQuery: 'professional tennis racket carbon',
-    short: 'Légèreté et puissance pour vos tournois.',
-  },
-  {
-    id: 'sp-rugby-jersey',
-    name: 'Maillot Rugby Black',
-    category: 'apparel',
-    priceMAD: 399,
-    imageQuery: 'rugby jersey black silver',
-    short: 'Résistance extrême, coutures renforcées.',
-  },
-  {
-    id: 'sp-running-pro',
-    name: 'Chaussures Run Ultra',
-    category: 'equipment',
-    priceMAD: 750,
-    imageQuery: 'high end running shoes neon orange',
-    short: 'Amorti réactif pour marathons.',
-  },
-  {
-    id: 'sp-gym-bench',
-    name: 'Banc de Musculation Pro',
-    category: 'equipment',
-    priceMAD: 1450,
-    imageQuery: 'adjustable gym weight bench',
-    short: 'Robuste, multi-positions, acier carbone.',
-  },
-  {
-    id: 'sp-yoga-pro',
-    name: 'Kit Yoga Master',
-    category: 'accessories',
-    priceMAD: 320,
-    imageQuery: 'professional yoga set with mat blocks strap',
-    short: 'Tout ce qu\'il faut pour votre pratique.',
-  },
-  {
-    id: 'sp-swimming-kit',
-    name: 'Pack Natation Pro',
-    category: 'accessories',
-    priceMAD: 250,
-    imageQuery: 'swimming goggles cap fins set',
-    short: 'Lunettes anti-buée + bonnet silicone.',
-  },
-  {
-    id: 'sp-tracksuit-ma',
-    name: 'Survêtement Maroc 2026',
-    category: 'morocco-teams',
-    priceMAD: 550,
-    imageQuery: 'morocco football tracksuit red green',
-    short: 'Ensemble complet entraînement Lions.',
-  },
-  {
-    id: 'sp-jersey-vnt',
-    name: 'Maillot Maroc Vintage 86',
-    category: 'morocco-teams',
-    priceMAD: 380,
-    imageQuery: 'retro morocco football jersey 1986',
-    short: 'Édition collector historique.',
-  },
-  {
-    id: 'sp-jersey-raja',
-    name: 'Maillot Raja CA Domicile',
-    category: 'morocco-teams',
-    priceMAD: 299,
-    imageQuery: 'raja casablanca green jersey',
-    short: 'Le maillot des Verts, saison 2025/26.',
-    customizable: true,
-  },
-  {
-    id: 'sp-jersey-wydad',
-    name: 'Maillot Wydad AC Domicile',
-    category: 'morocco-teams',
-    priceMAD: 299,
-    imageQuery: 'wydad casablanca red jersey',
-    short: 'Le maillot des Rouges, saison 2025/26.',
-    customizable: true,
-  },
-  {
-    id: 'sp-padel-racket',
-    name: 'Raquette Padel Carbon',
-    category: 'equipment',
-    priceMAD: 950,
-    imageQuery: 'professional padel racket blue black',
-    short: 'Idéal pour le padel en pleine expansion.',
+  // GYM (20 items)
+  for (let i = 1; i <= 20; i++) {
+    p.push({
+      id: `gym-${i}`,
+      name: i % 3 === 0 ? `Dumbbell Set Pro ${i * 5}kg` : (i % 2 === 0 ? `Olympic Barbell ${i}x` : `Kettlebell Steel ${i * 2}kg`),
+      priceMAD: 200 + (i * 50),
+      category: 'gym',
+      short: 'Equipement de musculation haute résistance.',
+      stock: 10 + i,
+      rating: 4.5 + (i % 5) / 10,
+      popularity: 80 + (i % 20),
+      imageQuery: 'gym equipment weights',
+      tags: ['muscle', 'strength', 'pro']
+    });
   }
-];
+
+  // FOOTBALL (30 items)
+  const footballTeams = ['Maroc Home', 'Maroc Away', 'Real Madrid', 'Barça', 'PSG', 'Man City', 'Bayern', 'Raja CA', 'Wydad AC', 'RS Berkane'];
+  footballTeams.forEach((team, k) => {
+    p.push({
+      id: `fb-kit-${k}`,
+      name: `Maillot ${team} 2026`,
+      priceMAD: 350,
+      category: 'football',
+      short: `Maillot officiel ${team} avec technologie Dry-Fit.`,
+      customizable: true,
+      stock: 50,
+      rating: 4.9,
+      popularity: 95,
+      imageQuery: `football jersey ${team}`,
+      tags: ['kit', team.toLowerCase(), 'official']
+    });
+  });
+  for (let i = 1; i <= 20; i++) {
+    p.push({
+      id: `fb-item-${i}`,
+      name: i % 2 === 0 ? `Ballon Match Pro V${i}` : `Crampons SpeedTech ${i}`,
+      priceMAD: 250 + (i * 30),
+      category: 'football',
+      short: 'Performance maximale sur le terrain.',
+      stock: 15 + i,
+      rating: 4.7,
+      popularity: 88,
+      imageQuery: i % 2 === 0 ? 'soccer ball' : 'football boots',
+      tags: ['gear', 'pro']
+    });
+  }
+
+  // BOXING & MMA (20 items)
+  for (let i = 1; i <= 20; i++) {
+    p.push({
+      id: `box-${i}`,
+      name: i % 2 === 0 ? `Gants Cuir Vega ${i}` : `Sac de frappe Heavy ${i}kg`,
+      priceMAD: 300 + (i * 40),
+      category: 'boxing',
+      short: 'Protection et durabilité pour combattants.',
+      stock: 8 + i,
+      rating: 4.8,
+      popularity: 92,
+      imageQuery: i % 2 === 0 ? 'boxing gloves' : 'punching bag',
+      tags: ['combat', 'mma']
+    });
+  }
+
+  // CARDIO (15 items)
+  for (let i = 1; i <= 15; i++) {
+    p.push({
+      id: `cardio-${i}`,
+      name: i % 3 === 0 ? `Tapis de course X${i}` : (i % 2 === 0 ? `Vélo Spinning Pro ${i}` : `Rameur Air ${i}`),
+      priceMAD: 2500 + (i * 500),
+      category: 'cardio',
+      short: 'Cardio intense à domicile ou en salle.',
+      stock: 5,
+      rating: 4.6,
+      popularity: 85,
+      imageQuery: 'treadmill gym bike',
+      tags: ['cardio', 'endurance']
+    });
+  }
+
+  // BASKETBALL (15 items)
+  for (let i = 1; i <= 15; i++) {
+    p.push({
+      id: `bk-${i}`,
+      name: i % 2 === 0 ? `Ballon NBA Vega ${i}` : `Maillot Basket Pro ${i}`,
+      priceMAD: 200 + (i * 20),
+      category: 'basketball',
+      short: 'Equipement basketball professionnel.',
+      stock: 20,
+      rating: 4.7,
+      popularity: 89,
+      imageQuery: 'basketball ball hoop',
+      tags: ['nba', 'ball']
+    });
+  }
+
+  // TENNIS & PADEL (15 items)
+  for (let i = 1; i <= 15; i++) {
+    p.push({
+      id: `tn-${i}`,
+      name: i % 2 === 0 ? `Raquette Padel Carbon ${i}` : `Raquette Tennis Pro ${i}`,
+      priceMAD: 800 + (i * 100),
+      category: 'tennis',
+      short: 'Contrôle et puissance pour chaque frappe.',
+      stock: 12,
+      rating: 4.5,
+      popularity: 82,
+      imageQuery: 'tennis racket padel',
+      tags: ['tennis', 'padel']
+    });
+  }
+
+  // RUNNING (20 items)
+  for (let i = 1; i <= 20; i++) {
+    p.push({
+      id: `rn-${i}`,
+      name: `Chaussures RunUltra V${i}`,
+      priceMAD: 600 + (i * 25),
+      category: 'running',
+      short: 'Amorti exceptionnel pour marathons et sprints.',
+      stock: 30,
+      rating: 4.8,
+      popularity: 94,
+      imageQuery: 'running shoes sneaker',
+      tags: ['run', 'comfort']
+    });
+  }
+
+  // RECOVERY (10 items)
+  for (let i = 1; i <= 10; i++) {
+    p.push({
+      id: `rc-${i}`,
+      name: i % 2 === 0 ? `Pistolet de massage G${i}` : `Rouleau Mousse Pro ${i}`,
+      priceMAD: 150 + (i * 100),
+      category: 'recovery',
+      short: 'Optimisez votre récupération après l\'effort.',
+      stock: 15,
+      rating: 4.9,
+      popularity: 91,
+      imageQuery: 'massage gun foam roller',
+      tags: ['health', 'rest']
+    });
+  }
+
+  // APPAREL (20 items)
+  for (let i = 1; i <= 20; i++) {
+    p.push({
+      id: `ap-${i}`,
+      name: i % 2 === 0 ? `Short Compression ${i}` : `T-shirt TechFit ${i}`,
+      priceMAD: 150 + (i * 10),
+      category: 'apparel',
+      short: 'Textile technique respirant.',
+      stock: 100,
+      rating: 4.7,
+      popularity: 96,
+      imageQuery: 'sports t-shirt shorts',
+      tags: ['wear', 'tech']
+    });
+  }
+
+  return p;
+};
+
+export const PRODUCTS = generateProducts();
+

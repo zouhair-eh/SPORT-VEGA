@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion'
 import { getProductPrice } from '../utils/prices'
-import { safeImageUrl } from '../utils/images'
+import { getProductImage } from '../utils/media'
 
 export default function ProductCard({ product, index = 0, onAdd }) {
   // Get dynamic price from localStorage or use default
   const price = getProductPrice(product.id, product.priceMAD)
-  const img = safeImageUrl(product, index)
+  const img = getProductImage(product, index)
 
   return (
     <motion.article

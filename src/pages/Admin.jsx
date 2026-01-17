@@ -1,138 +1,160 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { PRODUCTS } from '../data/products'
-import { loadPrices, setProductPrice, resetAllPrices } from '../utils/prices'
-import { motion } from 'framer-motion'
-import { FaLock, FaUnlock, FaSave, FaUndo } from 'react-icons/fa'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FaTrash, FaCheck, FaEdit, FaPlus, FaSearch, FaBox, FaMoneyBillWave, FaChartLine } from 'react-icons/fa'
+import { PRODUCTS, CATEGORIES } from '../data/products'
+import { getProductPrice, setProductPrice } from '../utils/prices'
 
 export default function Admin() {
-    const [prices, setPrices] = useState({})
-    const [editedPrices, setEditedPrices] = useState({})
-    const [saved, setSaved] = useState(false)
+    const [products, setProducts] = useState([])
+    const [query, setQuery] = useState('')
+    const [editingId, setEditingId] = useState(null)
+    const [editPrice, setEditPrice] = useState('')
+    const [msg, setMsg] = useState('')
 
     useEffect(() => {
-        const loaded = loadPrices()
-        setPrices(loaded)
-        setEditedPrices(loaded)
+        // In a real app, we'd fetch from API. Here we use local prices mixed with hardcoded PRODUCTS.
+        const list = PRODUCTS.map(p => ({
+            ...p,
+            currentPrice: getProductPrice(p.id, p.priceMAD)
+        }))
+        setProducts(list)
     }, [])
 
-    function handlePriceChange(productId, value) {
-        setEditedPrices(prev => ({ ...prev, [productId]: parseFloat(value) || 0 }))
-        setSaved(false)
-    }
+    const filtered = products.filter(p => p.name.toLowerCase().includes(query.toLowerCase()))
 
-    function handleSave() {
-        Object.entries(editedPrices).forEach(([id, price]) => {
-            setProductPrice(id, price)
-        })
-        setPrices(editedPrices)
-        setSaved(true)
-        setTimeout(() => setSaved(false), 2000)
-    }
-
-    function handleReset() {
-        if (confirm('Réinitialiser tous les prix aux valeurs par défaut?')) {
-            resetAllPrices()
-            setPrices({})
-            setEditedPrices({})
-            setSaved(true)
-            setTimeout(() => setSaved(false), 2000)
-        }
+    const handleUpdate = (id) => {
+        const val = parseFloat(editPrice)
+        if (isNaN(val)) return
+        setProductPrice(id, val)
+        setProducts(products.map(p => p.id === id ? { ...p, currentPrice: val } : p))
+        setEditingId(null)
+        setMsg('Price updated successfully!')
+        setTimeout(() => setMsg(''), 2000)
     }
 
     return (
-        <div className="container py-4">
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-            >
-                <div className="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <h2 className="fw-bold mb-1 d-flex align-items-center gap-2">
-                            <FaLock /> Admin Panel
-                        </h2>
-                        <div className="text-slate-300" style={{ fontSize: 13 }}>
-                            Gestion des prix (localStorage)
+        <div className="bg-sport-950 min-h-screen pt-32 pb-20">
+            <div className="container mx-auto px-4">
+                {/* Dashboard Stats */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    {[
+                        { label: 'Total Products', value: PRODUCTS.length, icon: FaBox, color: 'sport-accent' },
+                        { label: 'Average Price', value: Math.round(PRODUCTS.reduce((s, x) => s + x.priceMAD, 0) / PRODUCTS.length) + ' MAD', icon: FaMoneyBillWave, color: 'sport-neon text-sport-950' },
+                        { label: 'Platform Status', value: 'LIVE / OPTIMIZED', icon: FaChartLine, color: 'green-500' }
+                    ].map((stat, i) => (
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: i * 0.1 }}
+                            key={i}
+                            className="glass rounded-[2rem] p-8 border-white/5 flex items-center gap-6"
+                        >
+                            <div className={`w-16 h-16 rounded-2xl bg-${stat.color} flex items-center justify-center text-2xl`}>
+                                <stat.icon />
+                            </div>
+                            <div>
+                                <div className="text-slate-500 text-xs font-black uppercase tracking-widest mb-1">{stat.label}</div>
+                                <div className="text-white text-3xl font-black italic">{stat.value}</div>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
+
+                <div className="glass rounded-[3rem] p-10 border-white/5">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-10">
+                        <div>
+                            <h1 className="text-white font-black text-4xl italic uppercase tracking-tighter">Inventory Control</h1>
+                            <p className="text-slate-500 font-bold">Manage pricing and availability for your 200+ sports products.</p>
+                        </div>
+
+                        <div className="relative w-full md:w-96">
+                            <FaSearch className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500" />
+                            <input
+                                type="text"
+                                placeholder="Search by name..."
+                                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-14 pr-6 text-white font-bold focus:outline-none focus:ring-2 focus:ring-sport-accent/50"
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                            />
                         </div>
                     </div>
-                    <div className="d-flex gap-2">
-                        <Link to="/shop" className="text-decoration-none">
-                            <button className="btn-ghost" type="button">
-                                Retour à la boutique
-                            </button>
-                        </Link>
-                        <button
-                            className="btn-ghost"
-                            type="button"
-                            onClick={handleReset}
-                        >
-                            <FaUndo /> Réinitialiser
-                        </button>
-                        <button
-                            className="btn-primary"
-                            type="button"
-                            onClick={handleSave}
-                        >
-                            <FaSave /> Sauvegarder
-                        </button>
-                    </div>
-                </div>
 
-                {saved && (
-                    <div className="alert alert-success mb-3" role="alert">
-                        ✅ Prix sauvegardés avec succès!
-                    </div>
-                )}
+                    <AnimatePresence>
+                        {msg && (
+                            <motion.div
+                                initial={{ opacity: 0, h: 0 }}
+                                animate={{ opacity: 1, h: 'auto' }}
+                                exit={{ opacity: 0, h: 0 }}
+                                className="bg-green-500/20 text-green-400 font-bold p-4 rounded-xl mb-6 border border-green-500/30 text-center"
+                            >
+                                {msg}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
 
-                <div className="glass rounded-4 p-4">
-                    <table className="table table-dark table-hover">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Produit</th>
-                                <th>Prix par défaut</th>
-                                <th>Prix actuel</th>
-                                <th>Nouveau prix (MAD)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {PRODUCTS.map((product) => {
-                                const currentPrice = prices[product.id] ?? product.priceMAD
-                                const editedPrice = editedPrices[product.id] ?? currentPrice
-
-                                return (
-                                    <tr key={product.id}>
-                                        <td className="text-slate-300" style={{ fontSize: 12 }}>
-                                            {product.id}
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left whitespace-nowrap">
+                            <thead>
+                                <tr className="border-b border-white/5 text-slate-500 text-[10px] uppercase font-black tracking-widest">
+                                    <th className="pb-6 pl-4">Product Info</th>
+                                    <th className="pb-6">Category</th>
+                                    <th className="pb-6">Current Price</th>
+                                    <th className="pb-6 pr-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-white/5">
+                                {filtered.map((p) => (
+                                    <tr key={p.id} className="group hover:bg-white/5 transition-colors">
+                                        <td className="py-6 pl-4">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-12 h-12 rounded-xl bg-sport-900 border border-white/10 flex items-center justify-center text-slate-500 overflow-hidden shrink-0">
+                                                    {/* Simple category-based icon placeholder if image fails */}
+                                                    <FaBox />
+                                                </div>
+                                                <div>
+                                                    <div className="text-white font-black text-sm uppercase">{p.name}</div>
+                                                    <div className="text-slate-600 text-[10px] font-bold">ID: {p.id}</div>
+                                                </div>
+                                            </div>
                                         </td>
-                                        <td className="fw-bold">{product.name}</td>
-                                        <td className="text-slate-300">{product.priceMAD} MAD</td>
-                                        <td className="fw-bold text-success">{currentPrice} MAD</td>
-                                        <td>
-                                            <input
-                                                type="number"
-                                                className="form-control"
-                                                style={{ maxWidth: 150 }}
-                                                value={editedPrice}
-                                                onChange={(e) => handlePriceChange(product.id, e.target.value)}
-                                                min="0"
-                                                step="10"
-                                            />
+                                        <td className="py-6 uppercase font-black text-[10px] text-slate-400 italic">
+                                            {p.category}
+                                        </td>
+                                        <td className="py-6">
+                                            {editingId === p.id ? (
+                                                <input
+                                                    type="number"
+                                                    className="bg-sport-950 border border-sport-accent rounded-lg px-3 py-2 text-white font-black w-32 focus:outline-none"
+                                                    autoFocus
+                                                    value={editPrice}
+                                                    onChange={(e) => setEditPrice(e.target.value)}
+                                                />
+                                            ) : (
+                                                <span className="text-white font-black">{p.currentPrice} MAD</span>
+                                            )}
+                                        </td>
+                                        <td className="py-6 pr-4 text-right">
+                                            {editingId === p.id ? (
+                                                <div className="flex justify-end gap-2">
+                                                    <button onClick={() => setEditingId(null)} className="w-10 h-10 rounded-xl bg-white/5 text-slate-400 flex items-center justify-center hover:bg-white/10 transition-colors"><FaTrash /></button>
+                                                    <button onClick={() => handleUpdate(p.id)} className="w-10 h-10 rounded-xl bg-sport-neon text-sport-950 flex items-center justify-center hover:scale-105 transition-transform"><FaCheck /></button>
+                                                </div>
+                                            ) : (
+                                                <button
+                                                    onClick={() => { setEditingId(p.id); setEditPrice(p.currentPrice); }}
+                                                    className="px-6 py-2.5 rounded-xl border border-white/10 text-slate-400 font-black text-[10px] uppercase hover:border-sport-accent hover:text-white transition-all flex items-center gap-2 ml-auto"
+                                                >
+                                                    <FaEdit /> Edit Price
+                                                </button>
+                                            )}
                                         </td>
                                     </tr>
-                                )
-                            })}
-                        </tbody>
-                    </table>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
-                <div className="mt-3 text-slate-300" style={{ fontSize: 13 }}>
-                    <FaUnlock className="me-2" />
-                    Note: Les prix sont stockés dans le localStorage du navigateur.
-                    Ils persisteront jusqu'à ce que vous les réinitialisiez ou vidiez le cache.
-                </div>
-            </motion.div>
+            </div>
         </div>
     )
 }

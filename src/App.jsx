@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { AnimatePresence, motion } from 'framer-motion'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
-import VegaAI from './components/VegaAI'
+import VegaCoach from './components/VegaCoach'
+import CartDrawer from './components/CartDrawer'
 import Home from './pages/Home'
 import Shop from './pages/Shop'
 import CustomizeKit from './pages/CustomizeKit'
@@ -14,9 +16,37 @@ import Login from './pages/Login'
 import NotFound from './pages/NotFound'
 import { addToCart, loadCart, removeFromCart, saveCart, updateQty } from './utils/cart'
 
+function AnimatedRoutes({ onAdd, cart, setCart, onRemove, onUpdateQty, onClear }) {
+  const location = useLocation()
+
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={location.pathname}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+      >
+        <Routes location={location}>
+          <Route path="/" element={<Home />} />
+          <Route path="/shop" element={<Shop onAdd={onAdd} />} />
+          <Route path="/customize" element={<CustomizeKit onAdd={onAdd} />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/cart" element={<Cart cart={cart} setCart={setCart} onRemove={onRemove} onUpdateQty={onUpdateQty} />} />
+          <Route path="/checkout" element={<Checkout cart={cart} onClear={onClear} />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </motion.div>
+    </AnimatePresence>
+  )
+}
+
 export default function App() {
   const [cart, setCart] = useState(() => loadCart())
-  const [toast, setToast] = useState('')
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   useEffect(() => { saveCart(cart) }, [cart])
 
@@ -28,11 +58,9 @@ export default function App() {
       name: product.name,
       priceMAD: product.priceMAD,
       meta: product.meta,
-      // Unique key per customization
       key: `${product.id}:${JSON.stringify(product.meta || {})}`
     }))
-    setToast(`Ajouté: ${product.name}`)
-    setTimeout(() => setToast(''), 1500)
+    setIsDrawerOpen(true)
   }
 
   function onRemove(key) {
@@ -51,26 +79,27 @@ export default function App() {
     <BrowserRouter>
       <Navbar cartCount={cartCount} />
 
-      {toast ? (
-        <div style={{ position: 'fixed', top: 80, right: 16, zIndex: 70 }}>
-          <div className="glass rounded-4 px-3 py-2">{toast}</div>
-        </div>
-      ) : null}
+      <CartDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        cart={cart}
+        onRemove={onRemove}
+        onUpdateQty={onUpdateQty}
+      />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/shop" element={<Shop onAdd={onAdd} />} />
-        <Route path="/customize" element={<CustomizeKit onAdd={onAdd} />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/cart" element={<Cart cart={cart} setCart={setCart} onRemove={onRemove} onUpdateQty={onUpdateQty} />} />
-        <Route path="/checkout" element={<Checkout cart={cart} onClear={onClear} />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <div className="min-h-screen">
+        <AnimatedRoutes
+          onAdd={onAdd}
+          cart={cart}
+          setCart={setCart}
+          onRemove={onRemove}
+          onUpdateQty={onUpdateQty}
+          onClear={onClear}
+        />
+      </div>
 
       <Footer />
-      <VegaAI />
+      <VegaCoach />
     </BrowserRouter>
   )
 }
