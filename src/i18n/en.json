@@ -1,0 +1,73 @@
+{
+    "nav": {
+        "shop": "Shop",
+        "customize": "Customize",
+        "contact": "Contact",
+        "cart": "Cart",
+        "admin": "Admin"
+    },
+    "home": {
+        "title": "VEGA STORE",
+        "subtitle": "Sports E-commerce • Equipment • Apparel",
+        "description": "Sports shop in Morocco: complete equipment, sports t-shirts, team kits and customization (name + number) with instant preview.",
+        "viewShop": "View shop",
+        "customizeKit": "Customize a kit",
+        "promo": "Promo: -15% on team kits"
+    },
+    "shop": {
+        "title": "Shop",
+        "subtitle": "Complete equipment, sports t-shirts, team kits.",
+        "search": "Search (ex: jersey, glove, mat...)",
+        "allCategories": "All categories",
+        "noProducts": "No products found."
+    },
+    "product": {
+        "add": "Add",
+        "addToCart": "Add to cart",
+        "customizable": "Customizable",
+        "price": "Price"
+    },
+    "cart": {
+        "title": "Cart",
+        "items": "item(s)",
+        "continueShopping": "Continue shopping",
+        "checkout": "Checkout",
+        "empty": "Your cart is empty.",
+        "emptyDesc": "Add products from the shop.",
+        "remove": "Remove",
+        "summary": "Summary",
+        "total": "Total",
+        "proceedToCheckout": "Proceed to checkout"
+    },
+    "customize": {
+        "title": "Team Kit Customization",
+        "subtitle": "Enter name + number, choose color, add to cart.",
+        "options": "Options",
+        "product": "Product",
+        "name": "Name",
+        "number": "Number",
+        "color": "Color",
+        "preview": "Preview",
+        "tip": "Tip: you can create multiple variants (different names/numbers) — they will be separated in the cart."
+    },
+    "contact": {
+        "title": "Contact",
+        "subtitle": "Need help? Contact us.",
+        "name": "Name",
+        "email": "Email",
+        "message": "Message",
+        "send": "Send"
+    },
+    "footer": {
+        "tagline": "Sports & Team Apparel",
+        "rights": "All rights reserved."
+    },
+    "categories": {
+        "equipment": "Equipment",
+        "apparel": "Apparel",
+        "teamkits": "Team Kits",
+        "accessories": "Accessories",
+        "morocco-teams": "Morocco Teams",
+        "european-teams": "European Teams"
+    }
+}

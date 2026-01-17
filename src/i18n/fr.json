@@ -1,0 +1,73 @@
+{
+    "nav": {
+        "shop": "Boutique",
+        "customize": "Personnalisation",
+        "contact": "Contact",
+        "cart": "Panier",
+        "admin": "Admin"
+    },
+    "home": {
+        "title": "VEGA STORE",
+        "subtitle": "E-commerce Sport • Matériel • Tenues",
+        "description": "Boutique sport au Maroc: matériel complet, t-shirts sport, kits équipe et personnalisation (nom + numéro) avec rendu instantané.",
+        "viewShop": "Voir la boutique",
+        "customizeKit": "Personnaliser une tenue",
+        "promo": "Promo: -15% sur kits équipe"
+    },
+    "shop": {
+        "title": "Boutique",
+        "subtitle": "Matériel complet, t-shirts sport, kits équipe.",
+        "search": "Rechercher (ex: jersey, gant, tapis...)",
+        "allCategories": "Toutes catégories",
+        "noProducts": "Aucun produit trouvé."
+    },
+    "product": {
+        "add": "Ajouter",
+        "addToCart": "Ajouter au panier",
+        "customizable": "Personnalisable",
+        "price": "Prix"
+    },
+    "cart": {
+        "title": "Panier",
+        "items": "article(s)",
+        "continueShopping": "Continuer shopping",
+        "checkout": "Paiement",
+        "empty": "Votre panier est vide.",
+        "emptyDesc": "Ajoutez des produits depuis la boutique.",
+        "remove": "Supprimer",
+        "summary": "Résumé",
+        "total": "Total",
+        "proceedToCheckout": "Passer au paiement"
+    },
+    "customize": {
+        "title": "Personnalisation Tenue Équipe",
+        "subtitle": "Tapez le nom + numéro, choisissez la couleur, ajoutez au panier.",
+        "options": "Options",
+        "product": "Produit",
+        "name": "Nom",
+        "number": "Numéro",
+        "color": "Couleur",
+        "preview": "Preview",
+        "tip": "Astuce: vous pouvez créer plusieurs variantes (différents noms/numéros) — elles seront séparées dans le panier."
+    },
+    "contact": {
+        "title": "Contact",
+        "subtitle": "Besoin d'aide? Contactez-nous.",
+        "name": "Nom",
+        "email": "Email",
+        "message": "Message",
+        "send": "Envoyer"
+    },
+    "footer": {
+        "tagline": "Sport & Tenues d'équipe",
+        "rights": "Tous droits réservés."
+    },
+    "categories": {
+        "equipment": "Matériel",
+        "apparel": "Tenues",
+        "teamkits": "Kits Équipe",
+        "accessories": "Accessoires",
+        "morocco-teams": "Équipes Maroc",
+        "european-teams": "Équipes Europe"
+    }
+}
