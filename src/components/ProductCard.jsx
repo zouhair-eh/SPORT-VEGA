@@ -1,48 +1,71 @@
 import { motion } from 'framer-motion'
+import { FaPlus, FaTshirt } from 'react-icons/fa'
 import { getProductPrice } from '../utils/prices'
 import { getProductImage } from '../utils/media'
+import { useI18n } from '../i18n'
 
 export default function ProductCard({ product, index = 0, onAdd }) {
-  // Get dynamic price from localStorage or use default
+  const { t } = useI18n()
   const price = getProductPrice(product.id, product.priceMAD)
   const img = getProductImage(product, index)
 
   return (
     <motion.article
-      className="glass rounded-4 p-3 h-100 d-flex flex-column gap-2"
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.35, delay: Math.min(index * 0.03, 0.2) }}
-      whileHover={{ y: -4, transition: { duration: 0.2 } }}
+      className="group bg-sport-900/40 backdrop-blur-xl rounded-[2rem] border border-white/5 overflow-hidden hover:border-sport-accent/50 transition-colors duration-500 flex flex-col h-full shadow-2xl relative"
     >
-      <div className="rounded-4 overflow-hidden position-relative" style={{ height: 170, background: 'rgba(0,0,0,0.25)' }}>
+      {/* Product Image Wrapper */}
+      <div className="relative aspect-[4/3] overflow-hidden bg-sport-950">
         <img
           src={img}
           alt={product.name}
           loading="lazy"
-          className="w-100 h-100"
-          style={{ objectFit: 'cover', transition: 'transform 0.3s' }}
-          onError={(e) => {
-            // Fallback if image fails
-            e.target.style.display = 'none'
-          }}
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
         />
+        {/* Custom Tag */}
+        {product.customizable && (
+          <div className="absolute top-4 left-4 ps-1 pe-1">
+            <div className="bg-sport-neon text-sport-950 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider flex items-center gap-2 shadow-xl">
+              <FaTshirt className="text-xs" /> {t('product.customizable')}
+            </div>
+          </div>
+        )}
+        {/* Popularity Badge */}
+        {product.popularity > 90 && (
+          <div className="absolute top-4 right-4">
+            <div className="bg-sport-fire text-white px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest">
+              TRENDING
+            </div>
+          </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-sport-950/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       </div>
-      <div className="d-flex align-items-start justify-content-between gap-2">
-        <div>
-          <div className="fw-bold">{product.name}</div>
-          <div className="text-slate-300" style={{ fontSize: 13 }}>{product.short}</div>
+
+      {/* Content */}
+      <div className="p-6 flex flex-col flex-1">
+        <div className="flex justify-between items-start gap-4 mb-2">
+          <h3 className="text-white font-black text-xl italic uppercase tracking-tighter leading-tight group-hover:text-sport-accent transition-colors">
+            {product.name}
+          </h3>
         </div>
-        {product.customizable ? (
-          <span className="badge">Personnalisable</span>
-        ) : null}
-      </div>
-      <div className="mt-auto d-flex align-items-center justify-content-between gap-2 pt-2">
-        <div className="fw-bold" style={{ fontSize: 18 }}>{price} MAD</div>
-        <button className="btn-primary" type="button" onClick={() => onAdd?.({ ...product, priceMAD: price })}>
-          Ajouter
-        </button>
+        <p className="text-slate-500 font-bold text-xs uppercase tracking-widest line-clamp-2 mb-6">
+          {product.short}
+        </p>
+
+        <div className="mt-auto flex items-center justify-between">
+          <div className="flex flex-col">
+            <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">{t('product.price')}</span>
+            <span className="text-white font-black text-2xl italic tracking-tighter">{price} <span className="text-xs">MAD</span></span>
+          </div>
+          <button
+            onClick={() => onAdd?.({ ...product, priceMAD: price })}
+            className="w-12 h-12 rounded-2xl bg-sport-accent text-white flex items-center justify-center hover:scale-110 active:scale-90 transition-all shadow-xl shadow-sport-accent/20 group/btn"
+          >
+            <FaPlus className="group-hover/btn:rotate-90 transition-transform" />
+          </button>
+        </div>
       </div>
     </motion.article>
   )

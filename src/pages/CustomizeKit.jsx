@@ -16,11 +16,11 @@ const COLORS = [
 const FONTS = [
   { id: 'modern', label: 'Modern Sans', family: "'Outfit', sans-serif" },
   { id: 'classic', label: 'Classic Sport', family: "'Inter', sans-serif" },
-  { id: 'retro', label: 'Retro Block', family: "serif" }, // Will map to a heavy block font if available
+  { id: 'retro', label: 'Retro Block', family: "serif" },
 ]
 
 export default function CustomizeKit({ onAdd }) {
-  const { t } = useI18n()
+  const { t, lang } = useI18n()
   const customOptions = useMemo(() => PRODUCTS.filter(p => p.customizable), [])
 
   const [selectedId, setSelectedId] = useState(customOptions[0]?.id)
@@ -31,7 +31,7 @@ export default function CustomizeKit({ onAdd }) {
   const [number, setNumber] = useState('07')
   const [color, setColor] = useState(COLORS[0])
   const [font, setFont] = useState(FONTS[0])
-  const [view, setView] = useState('back') // 'front' or 'back'
+  const [view, setView] = useState('back')
   const [size, setSize] = useState('M')
 
   const handleAdd = () => {
@@ -51,7 +51,7 @@ export default function CustomizeKit({ onAdd }) {
   }
 
   return (
-    <div className="bg-sport-950 min-h-screen pt-32 pb-20 overflow-hidden">
+    <div className="bg-sport-950 min-h-screen pt-32 pb-20 overflow-hidden" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
       <div className="container mx-auto px-4">
         <div className="flex flex-col lg:flex-row gap-12 items-start">
 
@@ -62,11 +62,9 @@ export default function CustomizeKit({ onAdd }) {
               animate={{ opacity: 1, scale: 1 }}
               className="relative aspect-square md:aspect-auto md:h-[650px] bg-sport-900 rounded-[3rem] border border-white/5 flex items-center justify-center p-8 md:p-12 overflow-hidden shadow-2xl shadow-black/50"
             >
-              {/* Bg Glow */}
               <div className="absolute inset-0 bg-gradient-to-br from-sport-accent/10 via-transparent to-sport-neon/5" />
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-sport-accent/20 blur-[150px] rounded-full" />
 
-              {/* Jersey SVG (Simulated) */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={view}
@@ -77,19 +75,15 @@ export default function CustomizeKit({ onAdd }) {
                   className="relative z-10 w-full max-w-[400px] drop-shadow-[0_30px_50px_rgba(0,0,0,0.6)]"
                 >
                   <svg viewBox="0 0 400 500" className="w-full h-auto">
-                    {/* Simplified Jersey Shape */}
                     <path
                       d="M80 110 L20 180 L70 240 L110 190 L110 450 L290 450 L290 190 L330 240 L380 180 L320 110 L300 110 L280 140 L200 140 L120 140 L100 110 Z"
                       fill={color.bg}
                       stroke={color.border || 'none'}
                       strokeWidth="2"
                     />
-
-                    {/* Detail Lines */}
                     <path d="M110 190 L290 190" stroke="rgba(0,0,0,0.1)" strokeWidth="4" fill="none" />
                     <circle cx="200" cy="140" r="45" fill="rgba(0,0,0,0.05)" />
 
-                    {/* Custom Text/Numbers */}
                     {view === 'back' ? (
                       <>
                         <motion.text
@@ -101,7 +95,7 @@ export default function CustomizeKit({ onAdd }) {
                           style={{ fontFamily: font.family }}
                           className="uppercase tracking-[0.3em]"
                         >
-                          {name || 'YOUR NAME'}
+                          {name || (lang === 'ar' ? 'اسمك هنا' : 'YOUR NAME')}
                         </motion.text>
                         <motion.text
                           x="200" y="360"
@@ -124,13 +118,12 @@ export default function CustomizeKit({ onAdd }) {
                 </motion.div>
               </AnimatePresence>
 
-              {/* View Toggle */}
               <button
                 onClick={() => setView(view === 'front' ? 'back' : 'front')}
                 className="absolute bottom-10 left-1/2 -translate-x-1/2 px-8 py-4 rounded-2xl bg-white text-sport-950 font-black text-sm flex items-center gap-3 hover:scale-105 transition-transform"
               >
                 <FaSyncAlt className={view === 'front' ? 'rotate-180 transition-transform' : ''} />
-                {view === 'front' ? 'SHOW BACK' : 'SHOW FRONT'}
+                {view === 'front' ? t('customize.showBack') : t('customize.showFront')}
               </button>
             </motion.div>
           </div>
@@ -143,17 +136,15 @@ export default function CustomizeKit({ onAdd }) {
               transition={{ delay: 0.2 }}
             >
               <h1 className="text-white font-black text-5xl md:text-7xl italic tracking-tighter uppercase leading-[0.85] mb-4">
-                CUSTOM <br /> <span className="text-sport-neon">SQUAD PRO</span>
+                {t('customize.title').split(' ')[0]} <br /> <span className="text-sport-neon">{t('customize.title').split(' ').slice(1).join(' ')}</span>
               </h1>
-              <p className="text-slate-400 font-bold">Configure your elite identity. High-performance fabrics with precision detailing.</p>
+              <p className="text-slate-400 font-bold">{t('customize.subtitle')}</p>
             </motion.div>
 
-            {/* Selection */}
             <div className="flex flex-col gap-8">
-              {/* Product Select */}
               <div className="space-y-4">
                 <label className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                  <FaTshirt /> Select Base Model
+                  <FaTshirt /> {t('customize.selectBase')}
                 </label>
                 <select
                   value={selectedId}
@@ -166,10 +157,9 @@ export default function CustomizeKit({ onAdd }) {
                 </select>
               </div>
 
-              {/* Name & Number */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-4">
-                  <label className="text-xs font-black text-slate-500 uppercase tracking-widest">Jersey Name</label>
+                  <label className="text-xs font-black text-slate-500 uppercase tracking-widest">{t('customize.jerseyName')}</label>
                   <input
                     type="text"
                     maxLength={12}
@@ -179,7 +169,7 @@ export default function CustomizeKit({ onAdd }) {
                   />
                 </div>
                 <div className="space-y-4">
-                  <label className="text-xs font-black text-slate-500 uppercase tracking-widest">Number</label>
+                  <label className="text-xs font-black text-slate-500 uppercase tracking-widest">{t('customize.number')}</label>
                   <input
                     type="text"
                     maxLength={2}
@@ -190,9 +180,8 @@ export default function CustomizeKit({ onAdd }) {
                 </div>
               </div>
 
-              {/* Color & Font */}
               <div className="space-y-4">
-                <label className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-2"><FaPalette /> Primary Color</label>
+                <label className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-2"><FaPalette /> {t('customize.primaryColor')}</label>
                 <div className="flex flex-wrap gap-3">
                   {COLORS.map(c => (
                     <button
@@ -208,7 +197,7 @@ export default function CustomizeKit({ onAdd }) {
               </div>
 
               <div className="space-y-4">
-                <label className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-2"><FaFont /> Typography Style</label>
+                <label className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-2"><FaFont /> {t('customize.typography')}</label>
                 <div className="grid grid-cols-3 gap-3">
                   {FONTS.map(f => (
                     <button
@@ -222,9 +211,8 @@ export default function CustomizeKit({ onAdd }) {
                 </div>
               </div>
 
-              {/* Sizes */}
               <div className="space-y-4">
-                <label className="text-xs font-black text-slate-500 uppercase tracking-widest">Select Size</label>
+                <label className="text-xs font-black text-slate-500 uppercase tracking-widest">{t('customize.selectSize')}</label>
                 <div className="flex gap-3">
                   {['S', 'M', 'L', 'XL', '2XL'].map(s => (
                     <button
@@ -239,19 +227,18 @@ export default function CustomizeKit({ onAdd }) {
               </div>
             </div>
 
-            {/* Price & Action */}
             <div className="mt-8 p-10 rounded-[2.5rem] bg-gradient-to-br from-sport-900 to-sport-950 border border-white/10 shadow-2xl relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-sport-accent/10 blur-[60px] group-hover:bg-sport-neon/10 transition-colors" />
               <div className="flex items-center justify-between gap-6 relative z-10 font-black">
                 <div>
-                  <div className="text-slate-500 text-xs uppercase tracking-widest mb-1">Total Price</div>
+                  <div className="text-slate-500 text-xs uppercase tracking-widest mb-1">{t('customize.totalPrice')}</div>
                   <div className="text-white text-4xl">{price} MAD</div>
                 </div>
                 <button
                   onClick={handleAdd}
                   className="px-10 py-5 rounded-2xl bg-sport-accent text-white hover:bg-sport-neon hover:text-sport-950 transition-all flex items-center gap-3 active:scale-95"
                 >
-                  ADD TO SQUAD <FaChevronRight />
+                  {t('customize.addToSquad')} <FaChevronRight />
                 </button>
               </div>
             </div>

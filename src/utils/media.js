@@ -1,7 +1,21 @@
 /**
- * VEGA MEDIA UTILITY 3.0
- * Handles high-quality Unsplash images and video fallbacks.
+ * VEGA MEDIA UTILITY 3.1 - RELIABLE & HIGH-PERFORMANCE
+ * Uses curated Unsplash IDs for maximum reliability and speed.
  */
+
+// Curated high-quality sport IDs for categories
+const CATEGORY_IMAGES = {
+  football: '1508098598007-01d00e86b19d',
+  gym: '1534438327276-14e5300c3a48',
+  cardio: '1518611012118-29a8a6345c2c',
+  boxing: '1552072092-2f9b111e64fb',
+  basketball: '1546519638-68e109498ffc',
+  tennis: '1622279457482-135474c970bf',
+  running: '1533560904424-a0c61dc306fc',
+  recovery: '1544367567-0f2fcb009e0b',
+  apparel: '1556906781-9a078d8a395c',
+  teamkits: '1517841905240-472986230f28'
+}
 
 const CATEGORY_VIDEOS = {
   football: 'https://assets.mixkit.co/videos/preview/mixkit-soccer-player-kicking-the-ball-in-the-stadium-1422-large.mp4',
@@ -13,15 +27,17 @@ const CATEGORY_VIDEOS = {
 }
 
 export function getProductImage(product, index = 0) {
-  if (product.image && !product.image.includes('placeholder')) {
+  // If product has a hardcoded real image, use it
+  if (product.image && !product.image.includes('placeholder') && !product.image.includes('source.unsplash')) {
     return product.image;
   }
 
-  // Use Unsplash Source for high-quality dynamic images
-  // Format: https://images.unsplash.com/photo-[ID]?auto=format&fit=crop&q=80&w=800
-  // Instead of simple search, we use curated IDs for the best look or keyword-based source
-  const query = encodeURIComponent(`${product.category} ${product.name} sport`);
-  return `https://source.unsplash.com/featured/800x600?${query}&v=${index}`;
+  // Use the curated category image if possible
+  const id = CATEGORY_IMAGES[product.category] || CATEGORY_IMAGES.gym;
+
+  // Return direct Unsplash URL with optimizations
+  // We add the index to the width or a seed to get slightly different images if needed
+  return `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&q=80&w=800&v=${index}`;
 }
 
 export function getCategoryVideo(category) {

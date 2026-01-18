@@ -31,17 +31,19 @@ export default function Navbar({ cartCount = 0 }) {
     { path: '/admin', label: t('nav.admin') },
   ]
 
+  const [langOpen, setLangOpen] = useState(false)
+
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-slate-950/80 backdrop-blur-2xl border-b border-white/10 py-3' : 'bg-transparent py-6'}`}>
       <div className="container mx-auto px-4 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-3 no-underline group">
+        <Link to="/" className="flex items-center gap-3 no-underline group shrink-0">
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-sport-accent to-blue-700 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-sport-accent/20 group-hover:scale-110 transition-transform">
             VG
           </div>
           <div className="hidden sm:block">
             <div className="text-white font-black text-lg leading-tight tracking-tighter">VEGA STORE</div>
-            <div className="text-sport-accent text-[10px] font-bold tracking-[0.2em] uppercase">{t('footer.tagline')}</div>
+            <div className="text-sport-accent text-[10px] font-bold tracking-[0.2em] uppercase">{t('home.subtitle')}</div>
           </div>
         </Link>
 
@@ -59,23 +61,38 @@ export default function Navbar({ cartCount = 0 }) {
         </div>
 
         {/* Icons & Actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 md:gap-3">
           {/* Lang */}
-          <div className="relative group">
-            <button className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition-colors">
+          <div className="relative">
+            <button
+              onClick={() => setLangOpen(!langOpen)}
+              className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition-colors"
+            >
               <FaGlobe />
             </button>
-            <div className="absolute top-full right-0 mt-3 w-40 bg-slate-900 border border-white/10 rounded-2xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all backdrop-blur-3xl shadow-2xl">
-              {languages.map((l) => (
-                <button
-                  key={l.code}
-                  onClick={() => setLang(l.code)}
-                  className={`w-full px-5 py-4 text-left text-sm font-bold flex items-center gap-3 hover:bg-white/5 transition-colors ${lang === l.code ? 'text-sport-neon' : 'text-slate-400'}`}
-                >
-                  <span className="text-xl">{l.flag}</span> {l.label}
-                </button>
-              ))}
-            </div>
+            <AnimatePresence>
+              {langOpen && (
+                <>
+                  <div className="fixed inset-0 z-0" onClick={() => setLangOpen(false)} />
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                    className="absolute top-full end-0 mt-3 w-40 bg-slate-900 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-3xl shadow-2xl z-10"
+                  >
+                    {languages.map((l) => (
+                      <button
+                        key={l.code}
+                        onClick={() => { setLang(l.code); setLangOpen(false); }}
+                        className={`w-full px-5 py-4 text-start text-sm font-bold flex items-center gap-3 hover:bg-white/5 transition-colors ${lang === l.code ? 'text-sport-neon' : 'text-slate-400'}`}
+                      >
+                        <span className="text-xl">{l.flag}</span> {l.label}
+                      </button>
+                    ))}
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
           </div>
 
           <Link to="/cart" className="relative group">

@@ -2,8 +2,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { FaTimes, FaTrash, FaPlus, FaMinus, FaShoppingCart, FaArrowRight } from 'react-icons/fa'
 import { getProductImage } from '../utils/media'
+import { useI18n } from '../i18n'
 
 export default function CartDrawer({ isOpen, onClose, cart, onRemove, onUpdateQty }) {
+    const { t } = useI18n()
     const total = cart.reduce((s, x) => s + x.priceMAD * x.qty, 0)
     const freeShippingThreshold = 500
     const shippingProgress = Math.min((total / freeShippingThreshold) * 100, 100)
@@ -36,8 +38,8 @@ export default function CartDrawer({ isOpen, onClose, cart, onRemove, onUpdateQt
                                     <FaShoppingCart />
                                 </div>
                                 <div>
-                                    <div className="text-white font-black text-2xl tracking-tighter italic uppercase">Your Cart</div>
-                                    <div className="text-slate-500 font-bold text-xs uppercase tracking-widest">{cart.length} ITEMS SELECTED</div>
+                                    <div className="text-white font-black text-2xl tracking-tighter italic uppercase">{t('cart.title')}</div>
+                                    <div className="text-slate-500 font-bold text-xs uppercase tracking-widest">{cart.length} {t('cart.itemsSelected')}</div>
                                 </div>
                             </div>
                             <button onClick={onClose} className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white hover:bg-white/10 transition-colors">
@@ -49,7 +51,7 @@ export default function CartDrawer({ isOpen, onClose, cart, onRemove, onUpdateQt
                         <div className="px-8 py-6 border-b border-white/5 bg-sport-accent/5">
                             <div className="flex justify-between items-center mb-3">
                                 <span className="text-xs font-black text-white uppercase italic">
-                                    {total >= freeShippingThreshold ? 'Free Shipping Earned! 🚀' : `Add ${freeShippingThreshold - total} MAD for Free Shipping`}
+                                    {total >= freeShippingThreshold ? t('cart.freeShipping') : t('cart.addMoreForFree').replace('{amount}', freeShippingThreshold - total)}
                                 </span>
                                 <span className="text-[10px] font-bold text-slate-500">{Math.round(shippingProgress)}%</span>
                             </div>
@@ -63,17 +65,17 @@ export default function CartDrawer({ isOpen, onClose, cart, onRemove, onUpdateQt
                         </div>
 
                         {/* Items */}
-                        <div className="flex-1 overflow-y-auto p-8 flex flex-col gap-6 no-scrollbar">
+                        <div className="flex-1 overflow-y-auto p-8 flex flex-col gap-6 no-scrollbar text-white">
                             {cart.length === 0 ? (
                                 <div className="h-full flex flex-col items-center justify-center text-center opacity-40">
                                     <FaShoppingCart className="text-6xl mb-6" />
-                                    <div className="text-xl font-black uppercase italic">Empty Cart</div>
-                                    <p className="text-xs font-bold mt-2">Go fill it with some pro gear!</p>
+                                    <div className="text-xl font-black uppercase italic">{t('cart.empty')}</div>
+                                    <p className="text-xs font-bold mt-2">{t('cart.emptyDesc')}</p>
                                 </div>
                             ) : (
                                 cart.map((item) => (
                                     <div key={item.key} className="flex gap-4 group">
-                                        <div className="w-24 h-24 rounded-2xl overflow-hidden bg-white/5 border border-white/10 shrink-0 relative">
+                                        <div className="w-24 h-24 rounded-2xl overflow-hidden bg-white/5 border border-white/10 shrink-0 relative text-black">
                                             <img src={getProductImage({ id: item.id, category: 'sport' })} alt={item.name} className="w-full h-full object-cover" />
                                             {item.meta?.custom && (
                                                 <div className="absolute top-1 right-1 px-1.5 py-0.5 rounded bg-sport-neon text-sport-950 text-[8px] font-black uppercase">Custom</div>
@@ -104,19 +106,19 @@ export default function CartDrawer({ isOpen, onClose, cart, onRemove, onUpdateQt
                         {/* Footer */}
                         <div className="p-8 border-t border-white/10 bg-slate-900/80 backdrop-blur-xl">
                             <div className="flex items-center justify-between mb-8">
-                                <span className="text-slate-500 font-black text-sm uppercase italic">Estimated Total</span>
+                                <span className="text-slate-500 font-black text-sm uppercase italic">{t('cart.estimatedTotal')}</span>
                                 <span className="text-white font-black text-3xl">{total} MAD</span>
                             </div>
                             <Link to="/checkout" onClick={onClose} className="no-underline">
                                 <button className="w-full py-5 rounded-2xl bg-sport-accent text-white font-black text-xl flex items-center justify-center gap-4 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-sport-accent/30 group">
-                                    CHECKOUT NOW <FaArrowRight className="group-hover:translate-x-2 transition-transform" />
+                                    {t('cart.proceedToCheckout')} <FaArrowRight className="group-hover:ps-2 transition-all" />
                                 </button>
                             </Link>
                             <button
                                 onClick={onClose}
-                                className="w-full mt-4 text-slate-500 font-black text-xs uppercase tracking-widest hover:text-white transition-colors"
+                                className="w-full mt-4 text-slate-500 font-black text-xs uppercase tracking-widest hover:text-white transition-colors border-none bg-transparent"
                             >
-                                CONTINUE SHOPPING
+                                {t('cart.continueShopping')}
                             </button>
                         </div>
                     </motion.div>

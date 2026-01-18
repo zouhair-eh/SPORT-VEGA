@@ -91,7 +91,7 @@ export default function Shop({ onAdd }) {
               onClick={() => setActiveCat(cat.id)}
               className={`px-8 py-3 rounded-2xl font-black text-sm whitespace-nowrap transition-all border-none ${activeCat === cat.id ? 'bg-sport-accent text-white shadow-xl shadow-sport-accent/20' : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10'}`}
             >
-              {cat.label.toUpperCase()}
+              {t(`categories.${cat.id}`).toUpperCase()}
             </button>
           ))}
         </div>

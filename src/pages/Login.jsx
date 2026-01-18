@@ -15,7 +15,7 @@ export default function Login() {
     }
 
     return (
-        <div className="min-h-screen bg-sport-950 flex items-center justify-center p-6 relative overflow-hidden">
+        <div className="min-h-screen bg-sport-950 flex flex-col items-center justify-center p-6 pt-32 pb-20 relative overflow-hidden">
             {/* Background Orbs */}
             <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-sport-accent/20 blur-[150px] rounded-full -translate-x-1/2 -translate-y-1/2" />
             <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-sport-neon/10 blur-[150px] rounded-full translate-x-1/2 translate-y-1/2" />
