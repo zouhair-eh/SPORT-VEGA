@@ -34,7 +34,7 @@ export default function VegaCoach() {
         <>
             <button
                 onClick={() => setIsOpen(true)}
-                className="fixed bottom-10 right-10 w-20 h-20 rounded-[2rem] bg-sport-accent text-white flex items-center justify-center text-3xl shadow-2xl shadow-sport-accent/40 hover:scale-110 active:scale-95 transition-all z-[60] group border-4 border-sport-950"
+                className="fixed bottom-10 end-10 w-20 h-20 rounded-[2rem] bg-sport-accent text-white flex items-center justify-center text-3xl shadow-2xl shadow-sport-accent/40 hover:scale-110 active:scale-95 transition-all z-[60] group border-4 border-sport-950"
             >
                 <div className="absolute inset-0 bg-white/20 rounded-[2rem] scale-0 group-hover:scale-100 transition-transform duration-500" />
                 <FaRobot className="relative z-10" />
@@ -49,7 +49,7 @@ export default function VegaCoach() {
                         initial={{ opacity: 0, y: 50, scale: 0.9, filter: 'blur(10px)' }}
                         animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
                         exit={{ opacity: 0, y: 50, scale: 0.9, filter: 'blur(10px)' }}
-                        className={`fixed bottom-32 right-10 w-[90vw] md:w-[420px] h-[650px] bg-slate-900/90 backdrop-blur-3xl border border-white/10 rounded-[3rem] shadow-2xl z-[70] flex flex-col overflow-hidden ring-1 ring-white/20 ${lang === 'ar' ? 'font-arabic' : ''}`}
+                        className={`fixed bottom-32 end-10 w-[90vw] md:w-[420px] h-[650px] bg-slate-900/90 backdrop-blur-3xl border border-white/10 rounded-[3rem] shadow-2xl z-[70] flex flex-col overflow-hidden ring-1 ring-white/20 ${lang === 'ar' ? 'font-arabic' : ''}`}
                         dir={lang === 'ar' ? 'rtl' : 'ltr'}
                     >
                         {/* Header */}
@@ -114,7 +114,7 @@ export default function VegaCoach() {
                                 />
                                 <button
                                     onClick={handleSend}
-                                    className={`absolute top-1/2 -translate-y-1/2 w-12 h-12 rounded-xl bg-sport-accent text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-lg shadow-sport-accent/30 ${lang === 'ar' ? 'left-3' : 'right-3'}`}
+                                    className={`absolute top-1/2 -translate-y-1/2 w-12 h-12 rounded-xl bg-sport-accent text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-lg shadow-sport-accent/30 ${lang === 'ar' ? 'start-3' : 'end-3'}`}
                                 >
                                     <FaPaperPlane className="text-sm" />
                                 </button>
