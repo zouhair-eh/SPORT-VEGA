@@ -16,6 +16,7 @@ export const CATEGORIES = [
 const getProductImage = (query, seed, teamName = null) => {
   // Check if we have AI-generated image for this specific team
   const aiGeneratedJerseys = {
+    // International Teams
     'Maroc Home': '/images/football/jerseys/morocco_home.png',
     'Maroc Away': '/images/football/jerseys/morocco_away.png',
     'France Home': '/images/football/jerseys/france_home.png',
@@ -25,6 +26,32 @@ const getProductImage = (query, seed, teamName = null) => {
     'Argentina Home': '/images/football/jerseys/argentina_home.png',
     'Argentina Away': '/images/football/jerseys/argentina_away.png',
     'Portugal Home': '/images/football/jerseys/portugal_home.png',
+    'Spain Home': '/images/football/jerseys/spain_home_jersey_1768918933751.png',
+    'Germany Home': '/images/football/jerseys/germany_home_jersey_1768918963964.png',
+    'England Home': '/images/football/jerseys/england_home_jersey_1768918988655.png',
+    // La Liga
+    'Real Madrid Home': '/images/football/jerseys/real_madrid_home_1768919012174.png',
+    'Real Madrid Away': '/images/football/jerseys/real_madrid_away_1768919033075.png',
+    'Barcelona Home': '/images/football/jerseys/barcelona_home_1768919087734.png',
+    'Barcelona Away': '/images/football/jerseys/barcelona_away_1768919105013.png',
+    // Ligue 1
+    'PSG Home': '/images/football/jerseys/psg_home_1768919133312.png',
+    'PSG Away': '/images/football/jerseys/psg_away_1768919159891.png',
+    // Premier League
+    'Man City Home': '/images/football/jerseys/man_city_home_1768919178719.png',
+    'Liverpool': '/images/football/jerseys/liverpool_home_1768919227434.png',
+    'Chelsea': '/images/football/jerseys/chelsea_home_1768919257221.png',
+    'Arsenal': '/images/football/jerseys/arsenal_home_1768919275030.png',
+    // Bundesliga
+    'Bayern Munich': '/images/football/jerseys/bayern_munich_1768919305030.png',
+    'Borussia Dortmund': '/images/football/jerseys/dortmund_home_1768919327091.png',
+    // Serie A
+    'Juventus': '/images/football/jerseys/juventus_home_1768919368158.png',
+    'AC Milan': '/images/football/jerseys/ac_milan_home_1768919385984.png',
+    'Inter Milan': '/images/football/jerseys/inter_milan_home_1768919407119.png',
+    // Botola Pro (Moroccan League)
+    'Raja CA Home': '/images/football/jerseys/raja_home_1768919429080.png',
+    'Wydad AC Home': '/images/football/jerseys/wydad_home_1768919456791.png',
   };
 
   if (teamName && aiGeneratedJerseys[teamName]) {
