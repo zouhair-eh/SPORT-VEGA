@@ -18,12 +18,12 @@ export default function ProductCard({ product, index = 0, onAdd }) {
       className="group bg-sport-900/40 backdrop-blur-xl rounded-[2rem] border border-white/5 overflow-hidden hover:border-sport-accent/50 transition-colors duration-500 flex flex-col h-full shadow-2xl relative"
     >
       {/* Product Image Wrapper */}
-      <div className="relative aspect-[4/3] overflow-hidden bg-sport-950">
+      <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
         <img
           src={img}
           alt={product.name}
           loading="lazy"
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
         />
         {/* Custom Tag */}
         {product.customizable && (
