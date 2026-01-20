@@ -1,13 +1,14 @@
 import { motion } from 'framer-motion'
-import { FaPlus, FaTshirt } from 'react-icons/fa'
+import { FaPlus, FaTshirt, FaStar } from 'react-icons/fa'
 import { getProductPrice } from '../utils/prices'
-import { getProductImage } from '../utils/media'
 import { useI18n } from '../i18n'
 
 export default function ProductCard({ product, index = 0, onAdd }) {
   const { t } = useI18n()
   const price = getProductPrice(product.id, product.priceMAD)
-  const img = getProductImage(product, index)
+  // Use product.image if available, otherwise fallback to placeholder
+  const img = product.image || `https://source.unsplash.com/800x800/?${product.category}-equipment&sig=${index}`
+
 
   return (
     <motion.article

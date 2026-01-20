@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { FaShoppingCart, FaGlobe, FaBars, FaTimes, FaUser } from 'react-icons/fa'
+import { FaShoppingCart, FaGlobe, FaBars, FaTimes, FaUser, FaFutbol } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useI18n } from '../i18n'
+import TeamSelector from './TeamSelector'
+import { useAuth } from '../context/AuthContext'
 
 export default function Navbar({ cartCount = 0 }) {
   const { lang, setLang, t } = useI18n()
+  const { favoriteTeam } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [teamSelectorOpen, setTeamSelectorOpen] = useState(false)
   const location = useLocation()
 
   useEffect(() => {
@@ -62,6 +66,18 @@ export default function Navbar({ cartCount = 0 }) {
 
         {/* Icons & Actions */}
         <div className="flex items-center gap-2 md:gap-3">
+          {/* Team Selector */}
+          <button
+            onClick={() => setTeamSelectorOpen(true)}
+            className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-colors ${favoriteTeam
+                ? 'bg-sport-accent/20 border-sport-accent text-sport-accent hover:bg-sport-accent/30'
+                : 'bg-white/5 border-white/10 text-slate-300 hover:text-white hover:bg-white/10'
+              }`}
+            title="Select your favorite team"
+          >
+            <FaFutbol />
+          </button>
+
           {/* Lang */}
           <div className="relative">
             <button
@@ -150,6 +166,9 @@ export default function Navbar({ cartCount = 0 }) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Team Selector Modal */}
+      <TeamSelector isOpen={teamSelectorOpen} onClose={() => setTeamSelectorOpen(false)} />
     </nav>
   )
 }

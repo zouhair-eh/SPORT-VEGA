@@ -15,6 +15,8 @@ import Admin from './pages/Admin'
 import Login from './pages/Login'
 import NotFound from './pages/NotFound'
 import { addToCart, loadCart, removeFromCart, saveCart, updateQty } from './utils/cart'
+import { AuthProvider } from './context/AuthContext'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function AnimatedRoutes({ onAdd, cart, setCart, onRemove, onUpdateQty, onClear }) {
   const location = useLocation()
@@ -29,14 +31,19 @@ function AnimatedRoutes({ onAdd, cart, setCart, onRemove, onUpdateQty, onClear }
         transition={{ duration: 0.4, ease: "easeOut" }}
       >
         <Routes location={location}>
-          <Route path="/" element={<Home />} />
-          <Route path="/shop" element={<Shop onAdd={onAdd} />} />
-          <Route path="/customize" element={<CustomizeKit onAdd={onAdd} />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/admin" element={<Admin />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/cart" element={<Cart cart={cart} setCart={setCart} onRemove={onRemove} onUpdateQty={onUpdateQty} />} />
-          <Route path="/checkout" element={<Checkout cart={cart} onClear={onClear} />} />
+
+          {/* Protected Routes */}
+          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/shop" element={<ProtectedRoute><Shop onAdd={onAdd} /></ProtectedRoute>} />
+          <Route path="/customize" element={<ProtectedRoute><CustomizeKit onAdd={onAdd} /></ProtectedRoute>} />
+          <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
+          <Route path="/cart" element={<ProtectedRoute><Cart cart={cart} setCart={setCart} onRemove={onRemove} onUpdateQty={onUpdateQty} /></ProtectedRoute>} />
+          <Route path="/checkout" element={<ProtectedRoute><Checkout cart={cart} onClear={onClear} /></ProtectedRoute>} />
+
+          {/* Admin Protected */}
+          <Route path="/admin" element={<ProtectedRoute requirePatron={true}><Admin /></ProtectedRoute>} />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </motion.div>
@@ -76,30 +83,57 @@ export default function App() {
   }
 
   return (
-    <BrowserRouter>
-      <Navbar cartCount={cartCount} />
+    <AuthProvider>
+      <BrowserRouter>
+        {/* Navbar is inside BrowserRouter but should probably be hidden on Login? 
+            User didn't specify, but usually login pages don't have full nav. 
+            However, we can safeguard it inside. For now, let's keep it global OR conditionally render it.
+            Let's keep it simple for now, maybe hide connection links if not logged in.
+            Actually, let's hide Navbar on Login page for cleaner "Portal" feel.
+         */}
+        <NavigationWrapper cartCount={cartCount} setIsDrawerOpen={setIsDrawerOpen} />
 
-      <CartDrawer
-        isOpen={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        cart={cart}
-        onRemove={onRemove}
-        onUpdateQty={onUpdateQty}
-      />
-
-      <div className="min-h-screen">
-        <AnimatedRoutes
-          onAdd={onAdd}
+        <CartDrawer
+          isOpen={isDrawerOpen}
+          onClose={() => setIsDrawerOpen(false)}
           cart={cart}
-          setCart={setCart}
           onRemove={onRemove}
           onUpdateQty={onUpdateQty}
-          onClear={onClear}
         />
-      </div>
 
-      <Footer />
-      <VegaCoach />
-    </BrowserRouter>
+        <div className="min-h-screen">
+          <AnimatedRoutes
+            onAdd={onAdd}
+            cart={cart}
+            setCart={setCart}
+            onRemove={onRemove}
+            onUpdateQty={onUpdateQty}
+            onClear={onClear}
+          />
+        </div>
+
+        <FooterWrapper />
+        <VegaCoachWrapper />
+      </BrowserRouter>
+    </AuthProvider>
   )
+}
+
+// Helpers to conditionall render Nav/Footer
+function NavigationWrapper({ cartCount, setIsDrawerOpen }) {
+  const location = useLocation();
+  if (location.pathname === '/login') return null;
+  return <Navbar cartCount={cartCount} /> // If Navbar has "open drawer" logic, might need prop
+}
+
+function FooterWrapper() {
+  const location = useLocation();
+  if (location.pathname === '/login') return null;
+  return <Footer />;
+}
+
+function VegaCoachWrapper() {
+  const location = useLocation();
+  if (location.pathname === '/login') return null;
+  return <VegaCoach />;
 }
